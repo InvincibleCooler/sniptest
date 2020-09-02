@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@+id/nav_graph"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_test_main">
+
+    <fragment
+        android:id="@+id/fragment_test_main"
+        android:name="com.eq.jh.renewmelon.fragment.TestMainFragment"
+        android:label="main fragment for navigation (list fragment)"
+        tools:layout="@layout/fragment_test_main">
+
+        <action
+            android:id="@+id/action_fragment_test_main_to_fragment_test_list_focus"
+            app:destination="@id/fragment_test_list_focus" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_test_list_focus"
+        android:name="com.eq.jh.renewmelon.fragment.TestListFocusFragment"
+        android:label="list focus view for video player"
+        tools:layout="@layout/fragment_test_list_focus" />
+
+    <fragment
+        android:id="@+id/fragment_test_list_focus2"
+        android:name="com.eq.jh.renewmelon.fragment.TestListFocusFragment2"
+        android:label="list focus view 2 for video player"
+        tools:layout="@layout/fragment_test_list_focus2" />
+
+</navigation>
