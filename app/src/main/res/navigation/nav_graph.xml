@@ -28,4 +28,16 @@
         android:label="list focus view 2 for video player"
         tools:layout="@layout/fragment_test_list_focus2" />
 
+    <fragment
+        android:id="@+id/fragment_video_corner"
+        android:name="com.eq.jh.renewmelon.fragment.VideoViewCornerFragment"
+        android:label="video view corner"
+        tools:layout="@layout/fragment_video_corner" />
+
+    <fragment
+        android:id="@+id/fragment_test_detail"
+        android:name="com.eq.jh.renewmelon.fragment.TestDetailFragment"
+        android:label="detail test"
+        tools:layout="@layout/fragment_test_detail" />
+
 </navigation>

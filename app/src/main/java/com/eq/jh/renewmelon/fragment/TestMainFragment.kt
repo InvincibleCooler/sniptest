@@ -48,6 +48,7 @@ class TestMainFragment : BaseFragment() {
         val list = mutableListOf<String>()
         list.add("리스트 포커스 뷰 영상 테스트")
         list.add("리스트 포커스 뷰 영상 테스트2")
+        list.add("리스트 포커스 뷰 영상 라운드코너 테스트")
         list.add("상세 뷰 영상 테스트")
 
         localAdapter.setItems(list)
@@ -94,6 +95,12 @@ class TestMainFragment : BaseFragment() {
                             }
                             1 -> {
                                 findNavController().navigate(R.id.fragment_test_list_focus2)
+                            }
+                            2 -> {
+                                findNavController().navigate(R.id.fragment_video_corner)
+                            }
+                            2 -> {
+                                findNavController().navigate(R.id.fragment_test_detail)
                             }
                         }
                     }
