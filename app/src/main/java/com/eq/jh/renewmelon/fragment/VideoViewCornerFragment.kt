@@ -234,7 +234,7 @@ class VideoViewCornerFragment : BaseFragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.test_list_forcus_listitem, parent, false))
+            return ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.test_videoview_cornet_listitem, parent, false))
         }
 
         override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
