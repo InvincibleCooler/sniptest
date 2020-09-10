@@ -99,7 +99,7 @@ class TestMainFragment : BaseFragment() {
                             2 -> {
                                 findNavController().navigate(R.id.fragment_video_corner)
                             }
-                            2 -> {
+                            3 -> {
                                 findNavController().navigate(R.id.fragment_test_detail)
                             }
                         }

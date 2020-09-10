@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.eq.jh.renewmelon.R
+import com.eq.jh.renewmelon.custom.OnClickListener
 import com.eq.jh.renewmelon.custom.OnPinchListener
 import com.eq.jh.renewmelon.custom.ScaleGestureRelativeLayout
 
@@ -39,6 +40,7 @@ class TestDetailFragment : BaseFragment() {
 
         viewPager2 = view.findViewById(R.id.viewpager2)
         viewPager2.run {
+//            offscreenPageLimit = 1
             isUserInputEnabled = false
             adapter = testAdapter
         }
@@ -59,7 +61,7 @@ class TestDetailFragment : BaseFragment() {
             }
 
         override fun getItemCount(): Int {
-            return items.size
+            return 3
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -71,15 +73,22 @@ class TestDetailFragment : BaseFragment() {
 
             vh.tvTitle.text = "우리 나라 좋은 나라"
 
-            (vh.itemView as ScaleGestureRelativeLayout).setOnPinchListener(object : OnPinchListener {
-                override fun onPinchIn() {
-                    Log.d(TAG, "onPinchIn")
-                }
+            (vh.itemView as ScaleGestureRelativeLayout).run {
+                scaleListener = object : OnPinchListener {
+                    override fun onPinchIn() {
+                        Log.d(TAG, "onPinchIn")
+                    }
 
-                override fun onPinchOut() {
-                    Log.d(TAG, "onPinchOut")
+                    override fun onPinchOut() {
+                        Log.d(TAG, "onPinchOut")
+                    }
                 }
-            })
+                clickListener = object : OnClickListener {
+                    override fun onClick() {
+                        Log.d(TAG, "click play or pause")
+                    }
+                }
+            }
         }
 
         private inner class TestHolder(view: View) : RecyclerView.ViewHolder(view) {

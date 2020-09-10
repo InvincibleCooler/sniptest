@@ -2,6 +2,8 @@ package com.eq.jh.renewmelon.custom
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.GestureDetector
+import android.view.GestureDetector.OnGestureListener
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.RelativeLayout
@@ -16,27 +18,33 @@ interface OnPinchListener {
     fun onPinchOut()
 }
 
-class ScaleGestureRelativeLayout(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+interface OnClickListener {
+    fun onClick()
+}
+
+class ScaleGestureRelativeLayout(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), OnGestureListener {
     companion object {
         private const val TAG = "ScaleGestureRelativeLayout"
     }
 
-    private val gestureDetector: ScaleGestureDetector
-    private val floatList = arrayListOf<Float>()
-    private var scaleListener: OnPinchListener? = null
+    private val gestureScaleDetector: ScaleGestureDetector
+    private val gestureDetector: GestureDetector
+    var scaleListener: OnPinchListener? = null
+    var clickListener: com.eq.jh.renewmelon.custom.OnClickListener? = null
 
-    fun setOnPinchListener(scaleListener: OnPinchListener?) {
-        this.scaleListener = scaleListener
-    }
+    private val floatList = arrayListOf<Float>()
 
     init {
-        gestureDetector = ScaleGestureDetector(context, ScaleListen())
+        gestureScaleDetector = ScaleGestureDetector(context, ScaleListen())
+        gestureDetector = GestureDetector(context, this)
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        gestureScaleDetector.onTouchEvent(event)
         gestureDetector.onTouchEvent(event)
         return true
     }
+
 
     private inner class ScaleListen : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
@@ -75,5 +83,23 @@ class ScaleGestureRelativeLayout(context: Context, attrs: AttributeSet?) : Relat
                 scaleListener?.onPinchOut()
             }
         }
+    }
+
+    // related to OnGestureListener
+    override fun onShowPress(e: MotionEvent?) {
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        clickListener?.onClick()
+        return true
+    }
+
+    override fun onDown(e: MotionEvent?) = true
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float) = true
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float) = true
+
+    override fun onLongPress(e: MotionEvent?) {
     }
 }
