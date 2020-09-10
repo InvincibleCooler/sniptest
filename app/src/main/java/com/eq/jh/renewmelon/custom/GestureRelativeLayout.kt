@@ -22,9 +22,9 @@ interface OnClickListener {
     fun onClick()
 }
 
-class ScaleGestureRelativeLayout(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), OnGestureListener {
+class GestureRelativeLayout(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), OnGestureListener {
     companion object {
-        private const val TAG = "ScaleGestureRelativeLayout"
+        private const val TAG = "GestureRelativeLayout"
     }
 
     private val gestureScaleDetector: ScaleGestureDetector

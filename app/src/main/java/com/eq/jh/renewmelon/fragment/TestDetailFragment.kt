@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.eq.jh.renewmelon.R
 import com.eq.jh.renewmelon.custom.OnClickListener
 import com.eq.jh.renewmelon.custom.OnPinchListener
-import com.eq.jh.renewmelon.custom.ScaleGestureRelativeLayout
+import com.eq.jh.renewmelon.custom.GestureRelativeLayout
 
 
 /**
@@ -73,7 +73,7 @@ class TestDetailFragment : BaseFragment() {
 
             vh.tvTitle.text = "우리 나라 좋은 나라"
 
-            (vh.itemView as ScaleGestureRelativeLayout).run {
+            (vh.itemView as GestureRelativeLayout).run {
                 scaleListener = object : OnPinchListener {
                     override fun onPinchIn() {
                         Log.d(TAG, "onPinchIn")
