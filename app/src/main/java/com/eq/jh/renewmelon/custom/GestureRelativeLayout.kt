@@ -1,5 +1,6 @@
 package com.eq.jh.renewmelon.custom
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -39,6 +40,7 @@ class GestureRelativeLayout(context: Context, attrs: AttributeSet?) : RelativeLa
         gestureDetector = GestureDetector(context, this)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         gestureScaleDetector.onTouchEvent(event)
         gestureDetector.onTouchEvent(event)

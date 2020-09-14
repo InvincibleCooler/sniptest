@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"> <!-- layout_width, layout_height must be match_parent otherwise IllegalStateException -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="399dp"
+        android:background="#ff0">
+
+        <ImageView
+            android:id="@+id/thumb_iv"
+            android:layout_width="266dp"
+            android:layout_height="355dp"
+            android:background="#f0f"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="226dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="316dp"
+            android:background="#0f0f19"
+            android:orientation="vertical"
+            android:paddingRight="18dp">
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="fijeifejifjeijfiefiejifjeifjeijfiejfie"
+                android:textColor="#e6ffffff"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/creator_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="fiejifjeifjei"
+                android:textColor="#7d7d91"
+                android:textSize="13dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+
