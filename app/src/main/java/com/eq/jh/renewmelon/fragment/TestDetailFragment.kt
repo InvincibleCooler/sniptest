@@ -1,5 +1,6 @@
 package com.eq.jh.renewmelon.fragment
 
+import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,10 @@ import com.eq.jh.renewmelon.anim.ScaleUpPageTransformer
 import com.eq.jh.renewmelon.custom.OnClickListener
 import com.eq.jh.renewmelon.custom.OnPinchListener
 import com.eq.jh.renewmelon.custom.GestureRelativeLayout
+import com.eq.jh.renewmelon.playback.TestPlayer
 import com.eq.jh.renewmelon.utils.ScreenUtils
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ui.PlayerView
 
 
 /**
@@ -30,6 +34,8 @@ class TestDetailFragment : BaseFragment() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var testAdapter: TestAdapter
 
+    private var player: TestPlayer? = null
+
     // related to pop layout
     private lateinit var popLayout: View
     private lateinit var popViewpager2: ViewPager2
@@ -37,8 +43,39 @@ class TestDetailFragment : BaseFragment() {
     private lateinit var popCloseTv: TextView
     private lateinit var popAdapter: PopAdapter
 
+    private fun createPlayer(context: Context): TestPlayer? {
+        Log.d(TAG, "createPlayer")
+        player = TestPlayer(context).also {
+            it.setCallback(object : TestPlayer.TestPlayerCallback {
+                override fun onCompletion() {
+                    Log.d(TAG, "onCompletion()")
+                }
+
+                override fun onPlaybackStateChanged(playWhenReady: Boolean, state: Int) {
+                    Log.d(TAG, "onPlaybackStateChanged playWhenReady : $playWhenReady, state : ${player?.stateName(state)}")
+                    if (state == Player.STATE_READY) {
+//                        if (!playWhenReady) {
+//                            player?.start()
+//
+//                            val adapter = recyclerView.adapter as TestListFocusFragment.LocalAdapter
+//                            val item = adapter.items[currentPlayableIndex]
+//                            player?.seekTo(item.seekPosition)
+//                        }
+                    }
+                }
+
+                override fun onError(error: String) {
+                    Log.d(TAG, "onError error : $error")
+                }
+            })
+        }
+        return player
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        createPlayer(requireActivity())
 
         testAdapter = TestAdapter()
         popAdapter = PopAdapter()
@@ -57,13 +94,12 @@ class TestDetailFragment : BaseFragment() {
 
         viewPager2 = view.findViewById(R.id.viewpager2)
         viewPager2.run {
-//            offscreenPageLimit = 1
+            offscreenPageLimit = 1
             isUserInputEnabled = false
             adapter = testAdapter
         }
 
         val testData = TestDataSet()
-        testData.title = "영상 타이틀"
         testData.url = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
         val dataList = arrayListOf(testData)
         testAdapter.items = dataList
@@ -105,8 +141,6 @@ class TestDetailFragment : BaseFragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val vh = holder as TestHolder
 
-            vh.tvTitle.text = "우리 나라 좋은 나라"
-
             (vh.itemView as GestureRelativeLayout).run {
                 scaleListener = object : OnPinchListener {
                     override fun onPinchIn() {
@@ -125,12 +159,11 @@ class TestDetailFragment : BaseFragment() {
         }
 
         private inner class TestHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val tvTitle: TextView = view.findViewById(R.id.tv_title)
+            val playerView: PlayerView = view.findViewById(R.id.player_view)
         }
     }
 
     private class TestDataSet {
-        var title = "영상 타이틀"
         var url = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
     }
 

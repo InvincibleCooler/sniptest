@@ -5,14 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_title"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="Test Test Test"
-        android:textColor="#000"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"/>
 </com.eq.jh.renewmelon.custom.GestureRelativeLayout>
