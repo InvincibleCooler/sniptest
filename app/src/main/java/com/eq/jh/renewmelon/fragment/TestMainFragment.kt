@@ -50,6 +50,7 @@ class TestMainFragment : BaseFragment() {
         list.add("리스트 포커스 뷰 영상 테스트2")
         list.add("리스트 포커스 뷰 영상 라운드코너 테스트")
         list.add("상세 뷰 영상 테스트")
+        list.add("알렌 rent house")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -101,6 +102,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             3 -> {
                                 findNavController().navigate(R.id.fragment_test_detail)
+                            }
+                            4 -> {
+                                findNavController().navigate(R.id.allen_rent_house)
                             }
                         }
                     }
