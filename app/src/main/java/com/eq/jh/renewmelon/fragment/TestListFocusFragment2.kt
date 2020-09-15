@@ -23,7 +23,7 @@ import com.google.android.exoplayer2.ui.PlayerView
  */
 class TestListFocusFragment2 : BaseFragment() {
     companion object {
-        private const val TAG = "LJH"
+        private const val TAG = "TestListFocusFragment2"
     }
 
     private lateinit var recyclerView: RecyclerView

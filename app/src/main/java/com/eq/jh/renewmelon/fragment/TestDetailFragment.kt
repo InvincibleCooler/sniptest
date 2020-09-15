@@ -3,6 +3,7 @@ package com.eq.jh.renewmelon.fragment
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.eq.jh.renewmelon.R
+import com.eq.jh.renewmelon.anim.ScaleUpPageTransformer
 import com.eq.jh.renewmelon.custom.OnClickListener
 import com.eq.jh.renewmelon.custom.OnPinchListener
 import com.eq.jh.renewmelon.custom.GestureRelativeLayout
@@ -22,7 +24,7 @@ import com.eq.jh.renewmelon.utils.ScreenUtils
  */
 class TestDetailFragment : BaseFragment() {
     companion object {
-        private const val TAG = "LJH"
+        private const val TAG = "TestDetailFragment"
     }
 
     private lateinit var viewPager2: ViewPager2
@@ -76,7 +78,7 @@ class TestDetailFragment : BaseFragment() {
         popViewpager2.run {
             offscreenPageLimit = 1 // You need to retain one page on each side so that the next and previous items are visible
             adapter = popAdapter
-//            setPageTransformer(ScaleUpPageTransformer(context))
+            setPageTransformer(ScaleUpPageTransformer(context, Gravity.BOTTOM))
             addItemDecoration(PopItemDecoration(ScreenUtils.dipToPixel(context, 73f)))
         }
 
@@ -108,12 +110,10 @@ class TestDetailFragment : BaseFragment() {
             (vh.itemView as GestureRelativeLayout).run {
                 scaleListener = object : OnPinchListener {
                     override fun onPinchIn() {
-                        Log.d(TAG, "onPinchIn")
                         showPopLayout(true)
                     }
 
                     override fun onPinchOut() {
-                        Log.d(TAG, "onPinchOut")
                     }
                 }
                 clickListener = object : OnClickListener {

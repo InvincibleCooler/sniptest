@@ -100,7 +100,7 @@ class TestListFocusFragment : BaseFragment() {
                 view?.let {
                     val percentage = getVisibleHeightPercentage(it)
 
-//                    Log.d("LJH", "i : $i, percentage : $percentage")
+//                    Log.d(TAG, "i : $i, percentage : $percentage")
                     if (percentage > maxPercentage) {
                         playableList.add(i)
                     }
