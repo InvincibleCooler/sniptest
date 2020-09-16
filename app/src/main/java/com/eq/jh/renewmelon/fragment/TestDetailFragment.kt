@@ -97,6 +97,12 @@ class TestDetailFragment : BaseFragment() {
             offscreenPageLimit = 1
             isUserInputEnabled = false
             adapter = testAdapter
+
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    val adapter = viewPager2.adapter as TestAdapter
+                }
+            })
         }
 
         val testData = TestDataSet()
