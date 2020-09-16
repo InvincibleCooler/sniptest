@@ -41,6 +41,12 @@
         tools:layout="@layout/fragment_test_detail" />
 
     <fragment
+        android:id="@+id/fragment_test_detail2"
+        android:name="com.eq.jh.renewmelon.fragment.TestDetail2Fragment"
+        android:label="detail test"
+        tools:layout="@layout/fragment_test_detail2" />
+
+    <fragment
         android:id="@+id/allen_rent_house"
         android:name="com.eq.jh.renewmelon.fragment.AllenRentHouseFragment"
         android:label="detail test"
