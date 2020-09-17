@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.eq.jh.renewmelon.R
 import com.eq.jh.renewmelon.anim.ScaleUpPageTransformer
@@ -34,8 +36,6 @@ class TestDetail2Fragment : BaseFragment() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var testAdapter: TestAdapter
 
-    private var player: TestPlayer? = null
-
     // related to pop layout
     private lateinit var popLayout: View
     private lateinit var popViewpager2: ViewPager2
@@ -43,41 +43,9 @@ class TestDetail2Fragment : BaseFragment() {
     private lateinit var popCloseTv: TextView
     private lateinit var popAdapter: PopAdapter
 
-    private fun createPlayer(context: Context): TestPlayer? {
-        Log.d(TAG, "createPlayer")
-        player = TestPlayer(context).also {
-            it.setCallback(object : TestPlayer.TestPlayerCallback {
-                override fun onCompletion() {
-                    Log.d(TAG, "onCompletion()")
-                }
-
-                override fun onPlaybackStateChanged(playWhenReady: Boolean, state: Int) {
-                    Log.d(TAG, "onPlaybackStateChanged playWhenReady : $playWhenReady, state : ${player?.stateName(state)}")
-                    if (state == Player.STATE_READY) {
-//                        if (!playWhenReady) {
-//                            player?.start()
-//
-//                            val adapter = recyclerView.adapter as TestListFocusFragment.LocalAdapter
-//                            val item = adapter.items[currentPlayableIndex]
-//                            player?.seekTo(item.seekPosition)
-//                        }
-                    }
-                }
-
-                override fun onError(error: String) {
-                    Log.d(TAG, "onError error : $error")
-                }
-            })
-        }
-        return player
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        createPlayer(requireActivity())
-
-        testAdapter = TestAdapter()
+        testAdapter = TestAdapter(this)
         popAdapter = PopAdapter()
     }
 
@@ -100,13 +68,14 @@ class TestDetail2Fragment : BaseFragment() {
 
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    val adapter = viewPager2.adapter as TestAdapter
+                    Log.d(TAG, "onPageSelected position : $position")
                 }
             })
         }
 
         val testData = TestDataSet()
         testData.url = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
+
         val dataList = arrayListOf(testData)
         testAdapter.items = dataList
         testAdapter.notifyDataSetChanged()
@@ -129,44 +98,49 @@ class TestDetail2Fragment : BaseFragment() {
         }
     }
 
-    private inner class TestAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private inner class TestAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int {
+            return items.size
+        }
+
+        override fun createFragment(position: Int): Fragment {
+            return DetailItemFragment.newInstance(items[position].url)
+        }
+
         var items = mutableListOf<TestDataSet>()
             set(value) {
                 field.clear()
                 field = value
             }
-
-        override fun getItemCount(): Int {
-            return 3
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return TestHolder(LayoutInflater.from(context).inflate(R.layout.test_pager_item, parent, false))
-        }
-
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val vh = holder as TestHolder
-
-            (vh.itemView as GestureRelativeLayout).run {
-                scaleListener = object : OnPinchListener {
-                    override fun onPinchIn() {
-                        showPopLayout(true)
-                    }
-
-                    override fun onPinchOut() {
-                    }
-                }
-                clickListener = object : OnClickListener {
-                    override fun onClick() {
-                        Log.d(TAG, "click play or pause")
-                    }
-                }
-            }
-        }
-
-        private inner class TestHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val playerView: PlayerView = view.findViewById(R.id.player_view)
-        }
+//
+//
+//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+//            return TestHolder(LayoutInflater.from(context).inflate(R.layout.test_pager_item, parent, false))
+//        }
+//
+//        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//            val vh = holder as TestHolder
+//
+//            (vh.itemView as GestureRelativeLayout).run {
+//                scaleListener = object : OnPinchListener {
+//                    override fun onPinchIn() {
+//                        showPopLayout(true)
+//                    }
+//
+//                    override fun onPinchOut() {
+//                    }
+//                }
+//                clickListener = object : OnClickListener {
+//                    override fun onClick() {
+//                        Log.d(TAG, "click play or pause")
+//                    }
+//                }
+//            }
+//        }
+//
+//        private inner class TestHolder(view: View) : RecyclerView.ViewHolder(view) {
+//            val playerView: PlayerView = view.findViewById(R.id.player_view)
+//        }
     }
 
     private class TestDataSet {
