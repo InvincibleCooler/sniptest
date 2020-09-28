@@ -52,4 +52,10 @@
         android:label="detail test"
         tools:layout="@layout/allen_rent_house" />
 
+    <fragment
+        android:id="@+id/fragment_test_image_move"
+        android:name="com.eq.jh.renewmelon.fragment.ImageMovingFragment"
+        android:label="detail test"
+        tools:layout="@layout/fragment_test_image_move" />
+
 </navigation>

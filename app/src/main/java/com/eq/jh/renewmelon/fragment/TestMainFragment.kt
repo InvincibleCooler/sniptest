@@ -52,6 +52,7 @@ class TestMainFragment : BaseFragment() {
         list.add("상세 뷰 영상 테스트")
         list.add("상세 뷰 영상 테스트2 - pager item fragment")
         list.add("알렌 rent house")
+        list.add("이미지 움직이기")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -109,6 +110,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             5 -> {
                                 findNavController().navigate(R.id.allen_rent_house)
+                            }
+                            6 -> {
+                                findNavController().navigate(R.id.fragment_test_image_move)
                             }
                         }
                     }
