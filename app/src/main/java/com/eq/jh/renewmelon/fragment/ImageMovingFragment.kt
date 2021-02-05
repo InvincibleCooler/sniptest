@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,10 @@ class ImageMovingFragment : BaseFragment() {
         }
 
         Log.d("LJH", "screenWidth : $screenWidth, screenHeight : $screenHeight")
+
+
+        val uri = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI.toString()
+        Log.d("LJH", "uri : $uri")
     }
 
     override fun onCreateView(

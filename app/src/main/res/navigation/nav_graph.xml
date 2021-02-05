@@ -58,4 +58,10 @@
         android:label="detail test"
         tools:layout="@layout/fragment_test_image_move" />
 
+    <fragment
+        android:id="@+id/fragment_recycler_view_swipe_menu"
+        android:name="com.eq.jh.renewmelon.fragment.RecyclerViewSwipeMenuFragment"
+        android:label="detail test"
+        tools:layout="@layout/recycler_view_swipe_menu" />
+
 </navigation>
