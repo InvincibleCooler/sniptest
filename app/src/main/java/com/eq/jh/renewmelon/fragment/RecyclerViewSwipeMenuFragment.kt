@@ -1,52 +1,42 @@
 package com.eq.jh.renewmelon.fragment
 
-import android.content.Context
-import android.graphics.Rect
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.eq.jh.renewmelon.R
-import com.eq.jh.renewmelon.anim.ScaleUpPageTransformer
-import com.eq.jh.renewmelon.custom.OnClickListener
-import com.eq.jh.renewmelon.custom.OnPinchListener
-import com.eq.jh.renewmelon.custom.GestureRelativeLayout
-import com.eq.jh.renewmelon.playback.TestPlayer
+import com.eq.jh.renewmelon.swipe.SwipeController
+import com.eq.jh.renewmelon.swipe.SwipeHelperCallback
 import com.eq.jh.renewmelon.utils.ScreenUtils
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.PlayerView
 
 
 /**
  * Copyright (C) 2020 Kakao Inc. All rights reserved.
  */
+@SuppressLint("LongLogTag")
 class RecyclerViewSwipeMenuFragment : BaseFragment() {
     companion object {
-        private const val TAG = "TestDetail2Fragment"
+        private const val TAG = "RecyclerViewSwipeMenuFragment"
     }
 
-    private lateinit var viewPager2: ViewPager2
-    private lateinit var testAdapter: TestAdapter
-
-    // related to pop layout
-    private lateinit var popLayout: View
-    private lateinit var popViewpager2: ViewPager2
-    private lateinit var popNameTv: TextView
-    private lateinit var popCloseTv: TextView
-    private lateinit var popAdapter: PopAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var localAdapter: LocalAdapter
+    private lateinit var swipeController: SwipeController
+    private var buttonWidth = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testAdapter = TestAdapter(this)
-        popAdapter = PopAdapter()
+        localAdapter = LocalAdapter()
+        swipeController = SwipeController()
+
+        context?.let {
+            buttonWidth = ScreenUtils.dipToPixel(it, 120f).toFloat()
+        }
     }
 
     override fun onCreateView(
@@ -57,101 +47,43 @@ class RecyclerViewSwipeMenuFragment : BaseFragment() {
         return inflater.inflate(R.layout.recycler_view_swipe_menu, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager2 = view.findViewById(R.id.viewpager2)
-        viewPager2.run {
-            offscreenPageLimit = 1
-            isUserInputEnabled = false
-            adapter = testAdapter
-
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    Log.d(TAG, "onPageSelected position : $position")
-                }
-            })
+        val swipeHelperCallback = SwipeHelperCallback().apply {
+            clamp = buttonWidth
         }
 
-        val testData = TestDataSet()
-        testData.url = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
-
-        val dataList = arrayListOf(testData)
-        testAdapter.items = dataList
-        testAdapter.notifyDataSetChanged()
-
-        // pop layout
-        popLayout = view.findViewById(R.id.pop_layout)
-        popViewpager2 = view.findViewById(R.id.pop_viewpager2)
-        popNameTv = view.findViewById(R.id.pop_name_tv)
-        popCloseTv = view.findViewById(R.id.pop_close_tv)
-
-        popViewpager2.run {
-            offscreenPageLimit = 1 // You need to retain one page on each side so that the next and previous items are visible
-            adapter = popAdapter
-            setPageTransformer(ScaleUpPageTransformer(context, Gravity.BOTTOM))
-            addItemDecoration(PopItemDecoration(ScreenUtils.dipToPixel(context, 73f)))
-        }
-
-        popCloseTv.setOnClickListener {
-            showPopLayout(false)
-        }
-    }
-
-    private inner class TestAdapter(fa: Fragment) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int {
-            return items.size
-        }
-
-        override fun createFragment(position: Int): Fragment {
-            return DetailItemFragment.newInstance(items[position].url)
-        }
-
-        var items = mutableListOf<TestDataSet>()
-            set(value) {
-                field.clear()
-                field = value
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.run {
+            layoutManager = LinearLayoutManager(context)
+            adapter = localAdapter
+            setHasFixedSize(true)
+            setOnTouchListener { _, _ ->
+                swipeHelperCallback.removePreviousClamp(this)
+                false
             }
-//
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//            return TestHolder(LayoutInflater.from(context).inflate(R.layout.test_pager_item, parent, false))
-//        }
-//
-//        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//            val vh = holder as TestHolder
-//
-//            (vh.itemView as GestureRelativeLayout).run {
-//                scaleListener = object : OnPinchListener {
-//                    override fun onPinchIn() {
-//                        showPopLayout(true)
-//                    }
-//
-//                    override fun onPinchOut() {
-//                    }
-//                }
-//                clickListener = object : OnClickListener {
-//                    override fun onClick() {
-//                        Log.d(TAG, "click play or pause")
-//                    }
-//                }
-//            }
-//        }
-//
-//        private inner class TestHolder(view: View) : RecyclerView.ViewHolder(view) {
-//            val playerView: PlayerView = view.findViewById(R.id.player_view)
-//        }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        val list = mutableListOf<String>()
+        list.add("AAAAAAAAAAAAAAAAAAAA")
+        list.add("BBBBBBBBBBBBBBBBBBBB")
+        list.add("CCCCCCCCCCCCCCCCCCCC")
+        list.add("DDDDDDDDDDDDDDDDDDDD")
+        list.add("EEEEEEEEEEEEEEEEEEEE")
+        list.add("FFFFFFFFFFFFFFFFFFFF")
+        list.add("GGGGGGGGGGGGGGGGGGGG")
+        list.add("HHHHHHHHHHHHHHHHHHHH")
+        localAdapter.items = list
+        localAdapter.notifyDataSetChanged()
     }
 
-    private class TestDataSet {
-        var url = "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
-    }
-
-    // related to pop layout
-    inner class PopAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    inner class LocalAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val viewTypeItem = 1
 
-        // 일단 테스트로 String으로 하고 나중에 데이터 set으로 바꾸자
         var items = mutableListOf<String>()
             set(value) {
                 field.clear()
@@ -159,7 +91,7 @@ class RecyclerViewSwipeMenuFragment : BaseFragment() {
             }
 
         override fun getItemCount(): Int {
-            return 5
+            return items.size
         }
 
         override fun getItemViewType(position: Int): Int {
@@ -167,45 +99,25 @@ class RecyclerViewSwipeMenuFragment : BaseFragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return PopHolder(LayoutInflater.from(context).inflate(R.layout.pop_viewpager2_item, parent, false))
+            return ItemViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.recycler_view_swipe_menu_item, parent, false)
+            )
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            when (holder.itemViewType) {
+        override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+            when (viewHolder.itemViewType) {
                 viewTypeItem -> {
-                    val vh = holder as PopHolder
-//                val data = items[position]
+                    val vh = viewHolder as ItemViewHolder
+                    val data = items[position]
 
-                    if (position % 2 == 0) {
-                        vh.trackTitleTv.text = "See You Again"
-                        vh.trackCreatorTv.text = "Cimo Frankel(@loneflower12)"
-                    } else {
-                        vh.trackTitleTv.text = "See You Again See You Again See You Again"
-                        vh.trackCreatorTv.text = "Cimo Frankel(@loneflower12) Cimo Frankel(@loneflower12)"
-                    }
-
-                    vh.itemView.setOnClickListener {
-                        Log.d(TAG, "click position : $position")
-                    }
+                    vh.titleTv.text = data
                 }
             }
         }
 
-        private inner class PopHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val thumbIv: ImageView = view.findViewById(R.id.thumb_iv)
-            val trackTitleTv: TextView = view.findViewById(R.id.title_tv)
-            val trackCreatorTv: TextView = view.findViewById(R.id.creator_tv)
+        inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val titleTv: TextView = view.findViewById(R.id.tv_title)
+            val swipeLayout: View = view.findViewById(R.id.swipe_layout)
         }
-    }
-
-    private inner class PopItemDecoration(private val margin: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            outRect.right = margin
-            outRect.left = margin
-        }
-    }
-
-    private fun showPopLayout(isShow: Boolean) {
-        popLayout.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 }
