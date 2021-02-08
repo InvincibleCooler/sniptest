@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.eq.jh.renewmelon.fragment.RecyclerViewSwipeMenuFragment
-import com.eq.jh.renewmelon.utils.ScreenUtils
 import kotlin.math.max
 import kotlin.math.min
 
@@ -14,7 +13,13 @@ import kotlin.math.min
 class SwipeHelperCallback : ItemTouchHelper.Callback() {
     companion object {
         private const val TAG = "SwipeHelperCallback"
+
+        const val GONE = 0
+        const val LEFT_VISIBLE = 1
+        const val RIGHT_VISIBLE = 2
     }
+
+    var buttonState = GONE
 
     private var currentPosition: Int? = null
     private var previousPosition: Int? = null
@@ -36,7 +41,7 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        Log.d(TAG, "onSelectedChanged")
+        Log.d(TAG, "onSelectedChanged actionState : $actionState")
         super.onSelectedChanged(viewHolder, actionState)
         viewHolder?.let {
             currentPosition = viewHolder.adapterPosition
@@ -52,49 +57,54 @@ class SwipeHelperCallback : ItemTouchHelper.Callback() {
     override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
         Log.d(TAG, "getSwipeThreshold")
         val isClamped = getTag(viewHolder)
-        // 현재 View가 고정되어있지 않고 사용자가 -clamp 이상 swipe시 isClamped true로 변경 아닐시 false로 변경
-        setTag(viewHolder, !isClamped && currentDx <= -clamp)
+        if (buttonState == RIGHT_VISIBLE) {
+            setTag(viewHolder, !isClamped && currentDx <= clamp)
+        } else if (buttonState == LEFT_VISIBLE) {
+            setTag(viewHolder, !isClamped && currentDx >= clamp)
+        }
         return 2f
     }
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            Log.d(TAG, "onChildDraw is ACTION_STATE_SWIPE")
             val view = getView(viewHolder)
             val isClamped = getTag(viewHolder)
             val x = clampViewPositionHorizontal(view, dX, isClamped, isCurrentlyActive)
             currentDx = x
 
-            getDefaultUIUtil().onDraw(
-                c,
-                recyclerView,
-                view,
-                x,
-                dY,
-                actionState,
-                isCurrentlyActive
-            )
+            getDefaultUIUtil().onDraw(c, recyclerView, view, x, dY, actionState, isCurrentlyActive)
         }
     }
 
-    private fun clampViewPositionHorizontal(
-        view: View,
-        dX: Float,
-        isClamped: Boolean,
-        isCurrentlyActive: Boolean
-    ): Float {
-        // View의 가로 길이의 절반까지만 swipe 되도록
-        val min: Float = -view.width.toFloat() / 2
-        // RIGHT 방향으로 swipe 막기
-        val max: Float = 0f
-
-        val x = if (isClamped) {
-            // View가 고정되었을 때 swipe되는 영역 제한
-            if (isCurrentlyActive) dX - clamp else -clamp
-        } else {
-            dX
+    private fun clampViewPositionHorizontal(view: View, dX: Float, isClamped: Boolean, isCurrentlyActive: Boolean): Float {
+        if (dX < 0f) { // 오른쪽에서 왼쪽으로 swipe : <----
+            buttonState = RIGHT_VISIBLE
+        } else if (dX > 0f) {
+            buttonState = LEFT_VISIBLE
         }
-        return min(max(min, x), max)
+
+        if (buttonState == RIGHT_VISIBLE) {
+            buttonState = RIGHT_VISIBLE
+            val min: Float = -view.width.toFloat() / 2
+            val max = 0f
+
+            val x = if (isClamped) {
+                if (isCurrentlyActive) dX - clamp else -clamp
+            } else {
+                dX
+            }
+            return min(max(min, x), max)
+        } else {
+            val min = 0f
+            val max: Float = view.width.toFloat() / 2
+
+            val x = if (isClamped) {
+                if (isCurrentlyActive) dX + clamp else clamp
+            } else {
+                dX
+            }
+            return min(max(min, x), max)
+        }
     }
 
     private fun setTag(viewHolder: RecyclerView.ViewHolder, isClamped: Boolean) {
