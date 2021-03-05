@@ -28,13 +28,11 @@ class RecyclerViewSwipeMenuFragment : BaseFragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var localAdapter: LocalAdapter
-    private lateinit var swipeController: SwipeController
     private var buttonWidth = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         localAdapter = LocalAdapter()
-        swipeController = SwipeController()
 
         context?.let {
             buttonWidth = ScreenUtils.dipToPixel(it, 120f).toFloat()
