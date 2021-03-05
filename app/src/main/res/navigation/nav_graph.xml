@@ -64,4 +64,16 @@
         android:label="detail test"
         tools:layout="@layout/recycler_view_swipe_menu" />
 
+    <fragment
+        android:id="@+id/fragment_algorithm"
+        android:name="com.eq.jh.renewmelon.fragment.AlgorithmFragment"
+        android:label="detail test"
+        tools:layout="@layout/algorithm" />
+
+    <fragment
+        android:id="@+id/fragment_nested_recyclerview"
+        android:name="com.eq.jh.renewmelon.fragment.NestedRecyclerViewFragment"
+        android:label="nest recyclerview test"
+        tools:layout="@layout/fragment_nested_recyclerview" />
+
 </navigation>

@@ -54,6 +54,8 @@ class TestMainFragment : BaseFragment() {
         list.add("알렌 rent house")
         list.add("이미지 움직이기")
         list.add("RecyclerView swipe menu")
+        list.add("Algorithm")
+        list.add("Nested RecyclerView keep position")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -117,6 +119,12 @@ class TestMainFragment : BaseFragment() {
                             }
                             7 -> {
                                 findNavController().navigate(R.id.fragment_recycler_view_swipe_menu)
+                            }
+                            8 -> {
+                                findNavController().navigate(R.id.fragment_algorithm)
+                            }
+                            9 -> {
+                                findNavController().navigate(R.id.fragment_nested_recyclerview)
                             }
                         }
                     }
