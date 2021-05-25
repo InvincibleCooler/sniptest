@@ -76,4 +76,9 @@
         android:label="nest recyclerview test"
         tools:layout="@layout/fragment_nested_recyclerview" />
 
+    <fragment
+        android:id="@+id/fragment_canvas_jetpack"
+        android:name="com.eq.jh.renewmelon.fragment.CanvasJetpackFragment"
+        android:label="nest recyclerview test" />
+
 </navigation>

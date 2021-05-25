@@ -56,6 +56,7 @@ class TestMainFragment : BaseFragment() {
         list.add("RecyclerView swipe menu")
         list.add("Algorithm")
         list.add("Nested RecyclerView keep position")
+        list.add("Canvas Made Easy In Jetpack Compose")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -125,6 +126,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             9 -> {
                                 findNavController().navigate(R.id.fragment_nested_recyclerview)
+                            }
+                            10 -> {
+                                findNavController().navigate(R.id.fragment_canvas_jetpack)
                             }
                         }
                     }
