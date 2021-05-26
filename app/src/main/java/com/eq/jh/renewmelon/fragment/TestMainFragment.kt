@@ -57,6 +57,7 @@ class TestMainFragment : BaseFragment() {
         list.add("Algorithm")
         list.add("Nested RecyclerView keep position")
         list.add("Canvas Made Easy In Jetpack Compose")
+        list.add("Parallax Album Test")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -129,6 +130,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             10 -> {
                                 findNavController().navigate(R.id.fragment_canvas_jetpack)
+                            }
+                            11 -> {
+                                findNavController().navigate(R.id.fragment_parallax)
                             }
                         }
                     }

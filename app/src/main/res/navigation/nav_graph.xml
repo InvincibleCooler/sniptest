@@ -81,4 +81,9 @@
         android:name="com.eq.jh.renewmelon.fragment.CanvasJetpackFragment"
         android:label="nest recyclerview test" />
 
+    <fragment
+        android:id="@+id/fragment_parallax"
+        android:name="com.eq.jh.renewmelon.fragment.ParallaxTestFragment"
+        android:label="parallax" />
+
 </navigation>
