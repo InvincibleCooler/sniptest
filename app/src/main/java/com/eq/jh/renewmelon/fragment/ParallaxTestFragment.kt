@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ class ParallaxTestFragment : BaseFragment() {
     private var topHeight = 0
     private var verticalDragRange = 0
     private var screenHeight = 0
+    private var itemHeight = 0
+    private var navigationBarHeight = 0
 
     private lateinit var topHeaderLayout: View
     private lateinit var recyclerView: RecyclerView
@@ -37,8 +40,8 @@ class ParallaxTestFragment : BaseFragment() {
             val firstPosition = findFirstVisibleItemPosition()
             scrollDy += dy
 
-            if (scrollDy >= screenHeight + verticalDragRange) {
-                scrollDy = screenHeight + verticalDragRange
+            if (scrollDy >= topHeight + (itemHeight * 19) + navigationBarHeight - screenHeight) {
+                scrollDy = topHeight + (itemHeight * 19) + navigationBarHeight - screenHeight
             } else if (scrollDy <= 0) {
                 scrollDy = 0
             } else {
@@ -66,12 +69,18 @@ class ParallaxTestFragment : BaseFragment() {
         }
     }
 
+    private val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         localAdapter = LocalAdapter()
         screenHeight = ScreenUtils.getScreenHeight(context)
         topHeight = ScreenUtils.dipToPixel(context, 400f)
         verticalDragRange = ScreenUtils.dipToPixel(context, 320f)
+        itemHeight = ScreenUtils.dipToPixel(context, 80f)
+        navigationBarHeight = ScreenUtils.getNavigationBarHeight(context)
         Log.d(TAG, "screenHeight : $screenHeight")
         Log.d(TAG, "topHeight : $topHeight")
         Log.d(TAG, "verticalDragRange : $verticalDragRange")

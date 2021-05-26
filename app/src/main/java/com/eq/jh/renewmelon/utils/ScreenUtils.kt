@@ -52,5 +52,17 @@ class ScreenUtils {
             }
             return 0
         }
+
+        fun getNavigationBarHeight(context: Context?): Int {
+            context?.let {
+                val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+                return if (resourceId > 0) {
+                    context.resources.getDimensionPixelSize(resourceId)
+                } else {
+                    0
+                }
+            }
+            return 0
+        }
     }
 }
