@@ -36,11 +36,15 @@ class ParallaxTestFragment : BaseFragment() {
         override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
             val firstPosition = findFirstVisibleItemPosition()
             scrollDy += dy
-            if (scrollDy >= screenHeight) {
-                scrollDy = screenHeight
+
+            if (scrollDy >= screenHeight + verticalDragRange) {
+                scrollDy = screenHeight + verticalDragRange
             } else if (scrollDy <= 0) {
                 scrollDy = 0
             } else {
+                if (dy < 0) {
+
+                }
                 // verticalDragRange 높이만큼 보정처리가 필요한것으로 판단됨.
 //                scrollDy = min(max(0, scrollDy), verticalDragRange)
             }
