@@ -86,4 +86,9 @@
         android:name="com.eq.jh.renewmelon.fragment.ParallaxTestFragment"
         android:label="parallax" />
 
+    <fragment
+        android:id="@+id/fragment_parallax2"
+        android:name="com.eq.jh.renewmelon.fragment.ParallaxTest2Fragment"
+        android:label="parallax2" />
+
 </navigation>

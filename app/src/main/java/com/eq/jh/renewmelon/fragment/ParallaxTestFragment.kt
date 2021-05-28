@@ -3,6 +3,8 @@ package com.eq.jh.renewmelon.fragment
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,40 +39,71 @@ class ParallaxTestFragment : BaseFragment() {
 
     private inner class ScrollLayoutManager(context: Context) : LinearLayoutManager(context) {
         override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
-            val firstPosition = findFirstVisibleItemPosition()
             scrollDy += dy
+            val totalItemHeight = getTotalItemHeight()
 
             if (scrollDy >= topHeight + (itemHeight * 19) + navigationBarHeight - screenHeight) {
                 scrollDy = topHeight + (itemHeight * 19) + navigationBarHeight - screenHeight
             } else if (scrollDy <= 0) {
                 scrollDy = 0
-            } else {
-                if (dy < 0) {
-
-                }
-                // verticalDragRange 높이만큼 보정처리가 필요한것으로 판단됨.
-//                scrollDy = min(max(0, scrollDy), verticalDragRange)
             }
             topHeaderLayout.translationY = -min(max(0f, scrollDy.toFloat()), verticalDragRange.toFloat())
 
-//            if (firstPosition == 0) {
-//                if (scrollDy in 0..CAN_MOVE_RANGE) {
-//                    topHeaderLayout.translationY = -scrollDy.toFloat()
-//                } else {
-//                    topHeaderLayout.translationY = -CAN_MOVE_RANGE.toFloat()
-//                }
-//            }
-            Log.d(TAG, "dy : $dy")
-            Log.d(TAG, "scrollDy : $scrollDy")
-//            Log.d(TAG, "topHeaderLayout.translationY : ${topHeaderLayout.translationY}")
-//
-//            Log.d(TAG, "firstPosition : $firstPosition")
+//            Log.d(TAG, "dy : $dy")
+//            Log.d(TAG, "scrollDy : $scrollDy")
             return super.scrollVerticallyBy(dy, recycler, state)
+        }
+
+        fun getTotalItemHeight(): Int { // 화면에 안그려지는 부분 처리가 불가능
+//            Log.d(TAG, "childCount : $childCount")
+            var totalHeight = 0
+
+            for (i in 0 until childCount) {
+                val view = findViewByPosition(i)
+                if (view != null) {
+                    totalHeight += getDecoratedMeasuredHeight(view)
+                }
+            }
+            return totalHeight
+        }
+
+        override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+            Log.d(TAG, "onLayoutChildren state?.isPreLayout : ${state?.isPreLayout}")
+            Handler(Looper.getMainLooper()).post {
+                var totalHeight = 0
+
+                for (i in 0 until childCount) {
+                    val view = getChildAt(i)
+                    if (view != null) {
+                        totalHeight += getDecoratedMeasuredHeight(view)
+                    }
+                }
+                Log.d(TAG, "onLayoutChildren totalHeight : $totalHeight")
+            }
+            if (state?.isPreLayout == true) {
+            }
+            super.onLayoutChildren(recycler, state)
         }
     }
 
-    private val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+    override fun onResume() {
+        super.onResume()
+        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+    }
 
+    override fun onPause() {
+        super.onPause()
+        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+    }
+
+    private val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        val manager = recyclerView.layoutManager
+        if (manager is ScrollLayoutManager) {
+            Log.d(TAG, "aaa : ${manager.getTotalItemHeight()}")
+        }
+        Log.d(TAG, "bbb : ${recyclerView.computeVerticalScrollExtent()}")
+        Log.d(TAG, "ccc : ${recyclerView.computeVerticalScrollOffset()}")
+        Log.d(TAG, "ddd : ${recyclerView.computeVerticalScrollRange()}")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +118,9 @@ class ParallaxTestFragment : BaseFragment() {
         Log.d(TAG, "topHeight : $topHeight")
         Log.d(TAG, "verticalDragRange : $verticalDragRange")
         Log.d(TAG, "item size : ${ScreenUtils.dipToPixel(context, 80f)}")
+        Log.d(TAG, "status : ${ScreenUtils.getStatusBarHeight(context)}")
+        Log.d(TAG, "navigationBarHeight : $navigationBarHeight")
+        Log.d(TAG, "item height : ${topHeight + itemHeight * 19}")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
