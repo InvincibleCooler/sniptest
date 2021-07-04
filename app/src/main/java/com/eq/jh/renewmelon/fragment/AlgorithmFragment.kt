@@ -28,13 +28,60 @@ class AlgorithmFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        val nums: IntArray = intArrayOf(7, 11, 2, 15)
-        val nums: IntArray = intArrayOf(15, 11, 7, 2)
-        val target = 9
+        val num1: IntArray = intArrayOf(60, 50)
+        val num2: IntArray = intArrayOf(30, 70)
+        val num3: IntArray = intArrayOf(60, 30)
+        val num4: IntArray = intArrayOf(40, 80)
+//        val num5: IntArray = intArrayOf(90, 20)
+        val sizes = arrayOf(num1, num2, num3, num4)
+//        sizes.add(num5)
 
-        val valueArray = twoSum(nums, target)
-        valueArray.forEach {
-            Log.d(TAG, "valueArray it : $it")
+        Log.d(TAG, "answer : ${solution(sizes)}")
+    }
+
+    fun solution(sizes: Array<IntArray>): Int {
+        var answer: Int = 0
+
+        val list = sizes.flatMap {
+            it.toList()
         }
+
+        val max = list.max()
+
+        var pair = 0
+        var isFirstMax = false
+        val otherSizeList = ArrayList<Int>()
+
+        sizes.forEach {
+            val first = it[0]
+            val second = it[1]
+
+            if (first == max) {
+                pair = second
+                isFirstMax = true
+            } else if (second == max) {
+                pair = first
+                isFirstMax = false
+            }
+        }
+
+        sizes.forEach {
+            var first: Int
+            var second: Int
+            if (isFirstMax) {
+                first = it[0]
+                second = it[1]
+            } else {
+                first = it[1]
+                second = it[0]
+            }
+
+            if (pair < second) {
+                otherSizeList.add(if (first >= second) second else first)
+            }
+        }
+        answer = max!! * otherSizeList.max()!!
+        return answer
     }
 
     private fun twoSum(nums: IntArray, target: Int): IntArray {
