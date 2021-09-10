@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size">17dp</dimen>
+    <dimen name="y_gap">3dp</dimen>
+    <dimen name="line_gap">4dp</dimen>
+    <dimen name="line_height">1dp</dimen>
+</resources>

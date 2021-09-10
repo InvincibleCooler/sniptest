@@ -59,6 +59,7 @@ class TestMainFragment : BaseFragment() {
         list.add("Canvas Made Easy In Jetpack Compose")
         list.add("Parallax Album Test")
         list.add("Parallax Album Test2")
+        list.add("draw line with textview")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -137,6 +138,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             12 -> {
                                 findNavController().navigate(R.id.fragment_parallax2)
+                            }
+                            13 -> {
+                                findNavController().navigate(R.id.fragment_draw_line_textview)
                             }
                         }
                     }

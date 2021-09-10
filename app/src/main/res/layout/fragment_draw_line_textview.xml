@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.eq.jh.renewmelon.custom.LineTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="재생목록의 곡을 삭제했음을 안내하는 토스트 팝업을 띄우고 플레이어(2/2) 화면으로 이동 재생목록의 곡을 삭제했음을 안내하는 토스트 팝업을 띄우고 플레이어(2/2) 화면으로 이동"
+        android:textSize="17dp"
+        android:lineSpacingExtra="4dp"
+        android:includeFontPadding="false"/>
+</RelativeLayout>
