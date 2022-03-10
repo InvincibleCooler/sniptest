@@ -96,4 +96,9 @@
         android:name="com.eq.jh.renewmelon.fragment.DrawLineTextViewFragment"
         android:label="parallax2" />
 
+    <fragment
+        android:id="@+id/fragment_test_canvas_path"
+        android:name="com.eq.jh.renewmelon.fragment.TestCanvasPathFragment"
+        android:label="parallax2" />
+
 </navigation>
