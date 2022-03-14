@@ -101,4 +101,9 @@
         android:name="com.eq.jh.renewmelon.fragment.TestCanvasPathFragment"
         android:label="parallax2" />
 
+    <fragment
+        android:id="@+id/fragment_test_canvas_path2"
+        android:name="com.eq.jh.renewmelon.fragment.TestCanvasPathFragment2"
+        android:label="parallax2" />
+
 </navigation>

@@ -61,6 +61,7 @@ class TestMainFragment : BaseFragment() {
         list.add("Parallax Album Test2")
         list.add("draw line with textview")
         list.add("test canvas path")
+        list.add("test canvas path2")
 
         localAdapter.setItems(list)
         localAdapter.notifyDataSetChanged()
@@ -145,6 +146,9 @@ class TestMainFragment : BaseFragment() {
                             }
                             14 -> {
                                 findNavController().navigate(R.id.fragment_test_canvas_path)
+                            }
+                            15 -> {
+                                findNavController().navigate(R.id.fragment_test_canvas_path2)
                             }
                         }
                     }

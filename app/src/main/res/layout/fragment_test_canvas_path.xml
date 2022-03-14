@@ -11,29 +11,31 @@
         android:background="#0f0"
         android:orientation="vertical">
 
-        <com.eq.jh.renewmelon.custom.TestShapeCanvasView
+        <com.eq.jh.renewmelon.custom.ArcView
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:background="#0ff"
+            app:filled_color="#f00" />
+
+        <com.eq.jh.renewmelon.custom.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#0ff"
+            android:paddingEnd="70dp"
+            android:paddingStart="70dp" />
+
+        <com.eq.jh.renewmelon.custom.ArcView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
             android:background="#0ff" />
 
-        <com.eq.jh.renewmelon.custom.TestShapeCanvasView
+        <com.eq.jh.renewmelon.custom.ArcView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#0ff" />
 
-        <com.eq.jh.renewmelon.custom.TestShapeCanvasView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#0ff"
-            android:layout_marginStart="70dp"
-            android:layout_marginEnd="70dp" />
-
-        <com.eq.jh.renewmelon.custom.TestShapeCanvasView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#0ff"
-            android:paddingStart="70dp"
-            android:paddingEnd="70dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </RelativeLayout>

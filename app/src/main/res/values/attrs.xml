@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="ArcView">
+        <attr name="filled_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="MixedArcView">
+        <attr name="circle_filled_color" format="color" />
+        <attr name="mix_filled_color" format="color" />
+        <attr name="arc_filled_color" format="color" />
+    </declare-styleable>
+</resources>
