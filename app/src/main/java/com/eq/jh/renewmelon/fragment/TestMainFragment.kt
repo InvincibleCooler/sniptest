@@ -46,6 +46,7 @@ class TestMainFragment : BaseFragment() {
         }
 
         val list = mutableListOf<String>()
+        list.add("GradientDrawable 테스트")
         list.add("리스트 포커스 뷰 영상 테스트")
         list.add("리스트 포커스 뷰 영상 테스트2")
         list.add("리스트 포커스 뷰 영상 라운드코너 테스트")
@@ -103,51 +104,54 @@ class TestMainFragment : BaseFragment() {
                     vh.itemView.setOnClickListener {
                         when (position) {
                             0 -> {
-                                findNavController().navigate(R.id.fragment_test_list_focus)
+                                findNavController().navigate(R.id.fragment_gradient_drawable)
                             }
                             1 -> {
-                                findNavController().navigate(R.id.fragment_test_list_focus2)
+                                findNavController().navigate(R.id.fragment_test_list_focus)
                             }
                             2 -> {
-                                findNavController().navigate(R.id.fragment_video_corner)
+                                findNavController().navigate(R.id.fragment_test_list_focus2)
                             }
                             3 -> {
-                                findNavController().navigate(R.id.fragment_test_detail)
+                                findNavController().navigate(R.id.fragment_video_corner)
                             }
                             4 -> {
-                                findNavController().navigate(R.id.fragment_test_detail2)
+                                findNavController().navigate(R.id.fragment_test_detail)
                             }
                             5 -> {
-                                findNavController().navigate(R.id.allen_rent_house)
+                                findNavController().navigate(R.id.fragment_test_detail2)
                             }
                             6 -> {
-                                findNavController().navigate(R.id.fragment_test_image_move)
+                                findNavController().navigate(R.id.allen_rent_house)
                             }
                             7 -> {
-                                findNavController().navigate(R.id.fragment_recycler_view_swipe_menu)
+                                findNavController().navigate(R.id.fragment_test_image_move)
                             }
                             8 -> {
-                                findNavController().navigate(R.id.fragment_algorithm)
+                                findNavController().navigate(R.id.fragment_recycler_view_swipe_menu)
                             }
                             9 -> {
-                                findNavController().navigate(R.id.fragment_nested_recyclerview)
+                                findNavController().navigate(R.id.fragment_algorithm)
                             }
                             10 -> {
-                                findNavController().navigate(R.id.fragment_canvas_jetpack)
+                                findNavController().navigate(R.id.fragment_nested_recyclerview)
                             }
                             11 -> {
-                                findNavController().navigate(R.id.fragment_parallax)
+                                findNavController().navigate(R.id.fragment_canvas_jetpack)
                             }
                             12 -> {
-                                findNavController().navigate(R.id.fragment_parallax2)
+                                findNavController().navigate(R.id.fragment_parallax)
                             }
                             13 -> {
-                                findNavController().navigate(R.id.fragment_draw_line_textview)
+                                findNavController().navigate(R.id.fragment_parallax2)
                             }
                             14 -> {
-                                findNavController().navigate(R.id.fragment_test_canvas_path)
+                                findNavController().navigate(R.id.fragment_draw_line_textview)
                             }
                             15 -> {
+                                findNavController().navigate(R.id.fragment_test_canvas_path)
+                            }
+                            16 -> {
                                 findNavController().navigate(R.id.fragment_test_canvas_path2)
                             }
                         }

@@ -17,6 +17,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/fragment_gradient_drawable"
+        android:name="com.eq.jh.renewmelon.fragment.GradientDrawableFragment"
+        android:label="list focus view for video player"
+        tools:layout="@layout/fragment_test_list_focus" />
+
+    <fragment
         android:id="@+id/fragment_test_list_focus"
         android:name="com.eq.jh.renewmelon.fragment.TestListFocusFragment"
         android:label="list focus view for video player"

@@ -52,7 +52,7 @@ class MixedArcView(context: Context, attrs: AttributeSet? = null) : AppCompatIma
 
         drawCircle(c)
         drawMixedShape(c)
-        drawHalfCircle(canvas)
+        drawArc(canvas)
     }
 
     private fun drawCircle(c: Canvas) {
@@ -79,7 +79,7 @@ class MixedArcView(context: Context, attrs: AttributeSet? = null) : AppCompatIma
         c.drawPath(path, paint)
     }
 
-    private fun drawHalfCircle(c: Canvas) {
+    private fun drawArc(c: Canvas) {
         val top = radius * 2
         val eachHeight = (height - radius * 2) / 3
         val bottom = top + eachHeight * 2

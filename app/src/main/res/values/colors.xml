@@ -8,4 +8,7 @@
     <color name="background">#121212</color>
     <color name="onBackground">#FFF</color>
     <color name="onBackgroundSecondary">#BFFFFFFF</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="red">#ff0000</color>
 </resources>
